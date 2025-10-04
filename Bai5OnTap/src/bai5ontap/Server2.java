@@ -12,14 +12,27 @@ public class Server2 {
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
-                String data = in.readLine(); 
-                String[] parts = data.split(";");
-                int c = Integer.parseInt(parts[0].trim());
-                int d = Integer.parseInt(parts[1].trim());
-
-                int kq = 3 * c - 6 * d;
-                out.println(kq);
-
+                String data = in.readLine();
+                if (data.equalsIgnoreCase("file")) {
+                    try (BufferedReader fileReader = new BufferedReader(new FileReader("input.txt"))) {
+                        String line;
+                        while ((line = fileReader.readLine()) != null) {
+                            String[] parts = line.split(";");
+                            int c = Integer.parseInt(parts[2].trim());
+                            int d = Integer.parseInt(parts[3].trim());
+                            int kq = 3*c - 6*d;
+                            out.println(kq);
+                        }
+                    } catch (IOException e) {
+                        out.println("Lỗi đọc file ở Server2");
+                    }
+                } else {
+                    String[] parts = data.split(";");
+                    int c = Integer.parseInt(parts[0].trim());
+                    int d = Integer.parseInt(parts[1].trim());
+                    int kq = 3 * c - 6 * d;
+                    out.println(kq);
+                }
                 socket.close();
             }
         } catch (IOException e) {

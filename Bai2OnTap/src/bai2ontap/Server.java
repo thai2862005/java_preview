@@ -1,9 +1,6 @@
 package bai2ontap;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -11,12 +8,13 @@ public class Server {
     public static void main(String[] args) {
         int port = 3000;
         System.out.println("Server đang chạy...");
+
         try (ServerSocket svsk = new ServerSocket(port)) {
             Socket sk = svsk.accept();
             System.out.println("Đã kết nối với Client");
 
             BufferedReader in = new BufferedReader(new InputStreamReader(sk.getInputStream()));
-            PrintWriter out = new PrintWriter(sk.getOutputStream(), true);
+            PrintWriter out = new PrintWriter(sk.getOutputStream(), true); 
 
             String input;
             while ((input = in.readLine()) != null && !input.equalsIgnoreCase("stop")) {
@@ -38,6 +36,7 @@ public class Server {
                                 }
                             }
                         }
+                        break; // đọc xong file thì thoát luôn
                     } else {
                         String[] parts = input.split(";");
                         if (parts.length == 3) {
@@ -55,6 +54,8 @@ public class Server {
                     out.println("Lỗi xử lý: " + e.getMessage());
                 }
             }
+
+            sk.close();
         } catch (Exception e) {
             System.out.println("Lỗi kết nối: " + e.getMessage());
         }

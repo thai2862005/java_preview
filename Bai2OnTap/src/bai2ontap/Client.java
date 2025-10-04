@@ -27,19 +27,12 @@ public class Client {
                     System.out.println("Server: " + response);
                 }
             } else if (option == 2) {
-                try (BufferedReader fileReader = new BufferedReader(new FileReader("input.txt"))) {
-                    String line;
-                    while ((line = fileReader.readLine()) != null) {
-                        out.println(line);
-                        String response = in.readLine();
-                        System.out.println("Server: " + response);
-                    }
-                    out.println("stop");
-                } catch (IOException e) {
-                    System.out.println("Lỗi đọc file: " + e.getMessage());
+                 out.println("file");
+                 String response;
+    while ((response = in.readLine()) != null) {
+        System.out.println("Server: " + response);
+                 }
                 }
-            }
-
             socket.close();
         } catch (IOException e) {
             System.out.println("server không kết nối được ");
